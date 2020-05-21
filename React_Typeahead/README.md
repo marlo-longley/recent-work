@@ -2,7 +2,7 @@
 
 ### Code Summary
 
-These two files are part of the typeahead search functionality on [canyoncinema50.org].
+These two files are part of the typeahead search functionality on [canyoncinema50.org](http://canyoncinema50.org).
 
 - `typeahead-choices-actions.js`: this is an action file that communicates with a Redux store, dispatching data returned from API calls. It contains queries called from `TypeAheadChoices.jsx` so I included it for context. It shows use of ES6 Promises, anonymous arrow functions, error catching, and an understanding of basic Redux concepts.
 
