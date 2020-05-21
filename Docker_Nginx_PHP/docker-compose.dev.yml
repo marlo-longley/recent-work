@@ -1,0 +1,36 @@
+# This is a docker-compose override file. See https://docs.docker.com/compose/reference/overview/#specifying-multiple-compose-files
+# Mounts detect_debug.conf for Nginx settings in esmero-web container
+# Adds additional PHP image for development with Xdebug and more logging enabled.
+# See inside ${PWD}/xdebug/jsbookmarks-for-xdebug.txt for javascript that can be used as a browser bookmark to turn debugging on/off.
+
+# Start these services with: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+# Stop these services with: docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+# (with just "docker-compose down", you will leave an orphan container dangling)
+version: '3.5'
+services:
+  web:
+    container_name: esmero-web
+    restart: always
+    image: "nginx"
+    depends_on:
+      - solr
+      - php
+    tty: true
+    ports:
+      - "8001:80"
+    networks:
+      - host-net
+      - esmero-net
+    volumes:
+      - ${PWD}/nginxconfigford8/detect_debug.conf:/etc/nginx/conf.d/default.conf:ro
+      - ${PWD}:/var/www/html:cached
+  php-debug:
+    container_name: esmero-php-debug
+    restart: always
+    image: esmero/php-7.3-fpm:development
+    tty: true
+    networks:
+      - host-net
+      - esmero-net
+    volumes:
+      - ${PWD}:/var/www/html:cached
